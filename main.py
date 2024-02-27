@@ -13,6 +13,12 @@ todos=[]
 async def get_todos():
     return { 'todo': todos }
 # get single todo
+@app.get('/todos/{item_id}')
+async def get_todos(item_id:int):
+    for todo in todos:
+        if todo.id==item_id:
+            return {"todo",todo}
+	return {"message":"no todo found"}
 # create new todo
 @app.post('/todos')
 async def create_todos(todo:Todo):
