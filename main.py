@@ -17,20 +17,26 @@ async def get_todos():
 async def get_single_todos(item_id:int):
     for todo in todos:
         if todo.id==item_id:
-            return {"todo",todo}
-	return {"message":"no todo found"}
+            return {"todo": todo}
+    return {"message": "no todo found"}
 # create new todo
 @app.post('/todos')
 async def create_todos(todo:Todo):
     todos.append(todo)
     return { 'message': "new todo added" }
 # update existing todo
-
+@app.put('/todos/{item_id}')
+async def update_todos(item_id:int,todo_obj:Todo):
+    for todo in todos:
+        if todo.id==item_id:
+            todo.id=todo.id
+            todo.item=todo_obj.item
+            return{"todo": todo}
+    return {"message": "Error update todo"} 
 # delete a todo
 @app.delete('/todos/{item_id}')
 async def delete_todos(item_id:int):
     for todo in todos:
         if todo.id==item_id:
             todos.remove(todo)
-            
-	return {"message":"no todo found"}
+    return {"message": "todo deleted"}
